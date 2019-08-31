@@ -27,15 +27,15 @@ export class TasksController {
     //}
 
     @Get('/:id')
-    getTaskById(@Param('id', ParseIntPipe) id: number) : Promise<Task> {
+    getTaskById(@Param('id', ParseIntPipe) id: number): Promise<Task> {
         return this.taskservice.getTaskById(id);
     }
 
-    //@Post()
-    //@UsePipes(ValidationPipe)
-    //createTask(@Body() createTaskDto: CreateTaskDto) : Task  {
-    //    return this.taskservice.createTask(createTaskDto);
-    //}
+    @Post()
+    @UsePipes(ValidationPipe)
+    createTask(@Body() createTaskDto: CreateTaskDto) : Promise<Task>  {
+        return this.taskservice.createTask(createTaskDto);
+    }
 
     //@Patch('/:id/status')
     //updateTaskSTatus(
