@@ -17,8 +17,11 @@ export class TasksController {
     }
 
     @Get()
-    async getTasks(@Query(ValidationPipe) filterDto: GetTaskFilterDto) : Promise<Task[]> {
-        return this.taskservice.getTasks(filterDto);
+    async getTasks(
+        @Query(ValidationPipe) filterDto: GetTaskFilterDto,
+        @GetUser() user: User
+        ): Promise<Task[]> {
+        return this.taskservice.getTasks(filterDto, user);
     }
 
     @Delete('/:id')
