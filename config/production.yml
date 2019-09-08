@@ -1,3 +1,5 @@
+server:
+    origin: 'https://productionsite.com'
 db: 
     syncrhonize: false
 
