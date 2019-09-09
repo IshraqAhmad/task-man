@@ -3,7 +3,6 @@ import { UserRepository } from './user.repository';
 import { ConflictException, InternalServerErrorException } from '@nestjs/common';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
-import { exec } from 'child_process';
 
 const mockCredentialDto = { username: 'TestUsername', password: 'TestPassword' };
 
