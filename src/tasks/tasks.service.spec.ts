@@ -4,13 +4,15 @@ import { TaskRepository } from './task.repository';
 import { GetTaskFilterDto } from './dto/get-tasks-filter.dto';
 import { TaskStatus } from './task-status.enum';
 import { exec } from 'child_process';
+import { NotFoundException } from '@nestjs/common';
 
 const mockUser = { id: 12, username: 'Test user' };
 
 const mockTasksRepository = () => ({
     getTasks: jest.fn(),
     findOne: jest.fn(),
-    createTask: jest.fn()
+    createTask: jest.fn(),
+    delete: jest.fn(),
 });
 
 describe('TaskService', () => {
@@ -73,4 +75,20 @@ describe('TaskService', () => {
             //expect(result).toEqual('someTask');
         })
     })
+
+    describe('deleteTask', () => {
+        it('calls taskRepository.deleteTask() to delete task', async () => {
+            taskRepository.delete.mockResolvedValue ({ affected: 1 });
+            expect(taskRepository.delete).not.toHaveBeenCalled();
+
+            await tasksService.deleteTask(1, mockUser);
+            expect(taskRepository.delete).toHaveBeenCalledWith({ id: 1, userId: mockUser.id });
+        });
+
+        it('throws error as task could not be found.', () => {
+            taskRepository.delete.mockResolvedValue({ affected: 0 });
+            expect(tasksService.deleteTask(1, mockUser)).rejects.toThrow(NotFoundException);
+        });
+
+    });
 });
